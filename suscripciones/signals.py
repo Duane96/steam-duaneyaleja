@@ -1,4 +1,3 @@
-# suscripciones/signals.py
 import os
 import qrcode
 from django.db.models.signals import post_save
@@ -28,5 +27,16 @@ def crear_qr(sender, instance, created, **kwargs):
         img.save(temp_handle, format='png')
         temp_handle.seek(0)
 
+        # Limita la longitud del nombre de usuario a 100 caracteres
+        nombre_usuario_corto = instance.user.username[:100]
+
+        # Genera el nombre del archivo
+        nombre_archivo = os.path.join('qrcodes', f'{nombre_usuario_corto}_qr.png')
+
+        # Verifica si el archivo ya existe
+        if instance.codigo_qr.storage.exists(nombre_archivo):
+            # Si el archivo ya existe, puedes optar por eliminarlo
+            instance.codigo_qr.storage.delete(nombre_archivo)
+
         # Guarda la imagen en el campo 'codigo_qr'
-        instance.codigo_qr.save(f'{instance.user.username}_qr.png', ContentFile(temp_handle.read()), save=True)
+        instance.codigo_qr.save(nombre_archivo, ContentFile(temp_handle.read()), save=True)
