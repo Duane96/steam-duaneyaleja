@@ -148,6 +148,7 @@ SESSION_COOKIE_AGE = 604800  # 7 días en segundos
 
 # URL que maneja los archivos multimedia en modo desarrollo
 MEDIA_URL = '/media/'
+MEDIA_ROOT = BASE_DIR, 'media'
 
 
 
