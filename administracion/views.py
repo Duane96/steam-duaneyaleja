@@ -203,7 +203,7 @@ class SocialCreateView(CreateView):
 @csrf_exempt
 def registrar_asistencia(request):
     email, dominio = request.POST['qr_data'].split('|')
-    if dominio == 'localhost':
+    if dominio == 'duaneyaleja.com.co':
         usuario = User.objects.get(email=email)
         numero_clase = Asistencia.objects.filter(usuario=usuario).count() + 1
         Asistencia.objects.create(usuario=usuario, numero_clase=numero_clase)

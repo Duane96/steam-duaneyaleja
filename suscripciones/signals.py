@@ -17,7 +17,7 @@ def crear_qr(sender, instance, created, **kwargs):
             border=4,
         )
         # Añade el correo electrónico del usuario y el dominio a los datos del QR.
-        dominio = 'localhost'
+        dominio = 'duaneyaleja.com.co'
         datos_qr = f'{instance.user.email}|{dominio}'
         qr.add_data(datos_qr)
         qr.make(fit=True)
