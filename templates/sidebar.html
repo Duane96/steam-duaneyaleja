@@ -1,0 +1,101 @@
+<!-- Sidebar -->
+<ul class="navbar-nav bg-gradient-menu sidebar sidebar-dark accordion" id="accordionSidebar">
+
+    <!-- Sidebar - Brand -->
+    <a class="sidebar-brand d-flex align-items-center justify-content-center" href="{% url "home" %}">
+        <div class="sidebar-brand-icon rotate-n-15">
+            <i class="fas fa-laugh-wink"></i>
+        </div>
+        <div class="sidebar-brand-text mx-3">STEAM<sup>D&A</sup></div>
+    </a>
+
+    <!-- Divider -->
+    <hr class="sidebar-divider my-0">
+
+    <!-- Nav Item - Dashboard -->
+    <li class="nav-item">
+        <a class="nav-link" href="{% url "home" %}">
+            <i class="fas fa-fw fa-tachometer-alt"></i>
+            <span>Inicio</span></a>
+    </li>
+
+    <!-- Divider -->
+    <hr class="sidebar-divider">
+
+    <!-- Heading -->
+    <div class="sidebar-heading">
+        MÓDULOS
+    </div>
+
+    <!-- Nav Item - Pages Collapse Menu -->
+    {% if user.perfil.tipo_usuario == "BachataSensual" %}
+    <li class="nav-item">
+        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo"
+            aria-expanded="true" aria-controls="collapseTwo">
+            <i class="fa fa-play"></i>
+            <span>Bachata Sensual</span>
+        </a>
+        <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+            <div class="bg-white py-2 collapse-inner rounded">
+                <h6 class="collapse-header">Niveles:</h6>
+                <a class="collapse-item" href="">Iniciación</a>
+                <a class="collapse-item" href="cards.html">Básico</a>
+                <a class="collapse-item" href="cards.html">Intermedio</a>
+                <a class="collapse-item" href="cards.html">Avanzado</a>
+            </div>
+        </div>
+    </li>
+    {% endif %}
+    
+    {% if user.perfil.tipo_usuario.nombre == "grupo" or user.perfil.tipo_usuario.nombre == "full" %}
+    <li class="nav-item">
+        <a class="nav-link " href="{% url "sensualteam" %}" data-toggle="" data-target="">
+            <i class="fa fa-play"></i>
+            <span>Sensual Team</span>
+        </a>
+    </li>
+    {% endif %}
+
+    
+    {% if user.perfil.tipo_usuario.nombre == "grupo" or user.perfil.tipo_usuario.nombre == "full" %}
+    <li class="nav-item">
+        <a class="nav-link " href="{% url "socialteam" %}" data-toggle="" data-target="">
+            <i class="fa fa-play"></i>
+            <span>Social Team</span>
+        </a>
+    </li>
+    {% endif %}
+
+    {% if user.perfil.tipo_usuario.nombre == "desactivado" %}
+    <li class="nav-item">
+        <a class="nav-link " href="#" data-toggle="" data-target="">
+            <i class="fa fa-play"></i>
+            <span>Inactivo</span>
+        </a>
+    </li>
+    {% endif %}
+
+    
+
+
+    {% if user.is_authenticated and user.is_staff %}
+        <!-- Divider -->
+    <hr class="sidebar-divider">
+        <!-- Nav Item - Tables -->
+        <li class="nav-item">
+            <a class="nav-link" href="{% url "inicio_admin" %}">
+                <i class="fas fa-fw fa-table"></i>
+                <span>Administración</span></a>
+        </li>
+    {% endif %}
+
+    <!-- Divider -->
+    <hr class="sidebar-divider d-none d-md-block">
+
+    <!-- Sidebar Toggler (Sidebar) -->
+    <div class="text-center d-none d-md-inline">
+        <button class="rounded-circle border-0" id="sidebarToggle"></button>
+    </div>
+
+</ul>
+<!-- End of Sidebar -->

@@ -1,0 +1,99 @@
+{% extends "base.html" %}
+{% load static %}
+
+
+{% block titulo %}STEAM{% endblock titulo %}STEAM
+
+{% block clasebody %}id="page-top"{% endblock clasebody %}
+
+{% block content %}
+
+
+    <!-- Page Wrapper -->
+    <div id="wrapper">
+
+        {% block sidebar %}{% include "sidebar.html" %}{% endblock sidebar %}
+
+        <!-- Content Wrapper -->
+        <div id="content-wrapper" class="d-flex flex-column">
+
+            <!-- Main Content -->
+            <div id="content">
+                {% block topbar %}{% include "top-bar.html" %}{% endblock topbar %}
+
+                <!-- Begin Page Content -->
+                <div class="container-fluid">
+                    <div class="container">
+                        <div class="row justify-content-center">
+                          <div class="col-md-6">
+                            <div class="card">
+                              <div class="card-body">
+                                <h3 class="card-title text-center" style="color:black;">Perfil de Usuario</h3>
+                                <table class="table">
+                                  <tbody>
+                                    <tr><th>Nombre de usuario</th><td>{{ perfil.user.username }}</td></tr>
+                                    <tr><th>Código QR</th><td>{% if perfil.codigo_qr %}
+                                        <img src="{{ perfil.codigo_qr.url }}" alt="Código QR">
+                                        <a href="{{ perfil.codigo_qr.url }}" download>Descargar Código QR</a>
+                                        {% else %}
+                                        No disponible
+                                        {% endif %}</td></tr>
+                                    <tr><th>Email</th><td>{{ perfil.user.email }}</td></tr>
+                                    <tr><th>Teléfono</th><td>{{ perfil.telefono }}</td></tr>
+                                    <tr><th>Tipo de usuario</th><td>{{ perfil.tipo_usuario }}</td></tr>
+                                    <tr><th>Plan</th><td>{{ perfil.plan.nombre }}, <span>Clases</span>{{ perfil.plan.cantidad_clases }}, ${{ perfil.plan.precio }}</td></tr>
+                                    <tr><th>Fecha de inicio</th><td>{{ perfil.fecha_inicio }}</td></tr>
+                                    <tr><th>Fecha de fin</th><td>{{ perfil.fecha_fin }}</td></tr>
+                                    <tr><th>Tipo de pago</th><td>{{ perfil.plan.tipo_pago }}</td></tr>
+                                  </tbody>
+                                </table>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      
+                      
+                      
+
+                    
+                </div>
+                <!-- /.container-fluid -->
+
+            </div>
+            <!-- End of Main Content -->
+
+           
+
+        </div>
+        <!-- End of Content Wrapper -->
+
+    </div>
+    <!-- End of Page Wrapper -->
+
+    <!-- Scroll to Top Button-->
+    <a class="scroll-to-top rounded" href="#page-top">
+        <i class="fas fa-angle-up"></i>
+    </a>
+
+    <!-- Logout Modal-->
+    <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">¿Listo para salir?</h5>
+                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <div class="modal-body">Presiona Salir para dirigirte a la página de Inicio de Sesión.</div>
+                <div class="modal-footer">
+                    <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancelar</button>
+                    <a class="btn btn-primary" href="{% url "login" %}">Salir</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock content %}

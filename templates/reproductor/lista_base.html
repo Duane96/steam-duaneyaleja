@@ -1,0 +1,108 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block titulo %}STEAM{% endblock titulo %}
+
+{% block clasebody %}id="page-top"{% endblock clasebody %}
+
+{% block content %}
+
+    <script>
+        function playVideo(enlace) {
+            console.log('Enlace:', enlace);  // Imprime el valor del enlace en la consola
+            var video_id = '';
+            if (enlace.includes('v=')) {
+                video_id = enlace.split('v=')[1];
+                var ampersandPosition = video_id.indexOf('&');
+                if(ampersandPosition != -1) {
+                    video_id = video_id.substring(0, ampersandPosition);
+                }
+            } else if (enlace.includes('shorts/')) {
+                video_id = enlace.split('shorts/')[1];
+            } else {
+                console.error('El enlace no es un enlace de video de YouTube válido.');
+                return;
+            }
+            document.getElementById('reproductor').src = 'https://www.youtube.com/embed/' + video_id;
+        }
+    </script>
+
+    
+    <!-- Page Wrapper -->
+    <div id="wrapper">
+
+        {% block sidebar %}{% include "sidebar.html" %}{% endblock sidebar %}
+
+        <!-- Content Wrapper -->
+        <div id="content-wrapper" class="d-flex flex-column">
+
+            <!-- Main Content -->
+            <div id="content">
+                {% block topbar %}{% include "top-bar.html" %}{% endblock topbar %}
+
+                <!-- Begin Page Content -->
+    <div class="container-fluid">
+
+        <div class="container mt-4">
+            <div class="row flex-column flex-lg-row">
+                <div class="col-12 col-lg-6 order-1 order-lg-1">
+                    <div class="embed-responsive embed-responsive-16by9">
+                        <iframe id="reproductor" class="embed-responsive-item" src="https://www.youtube.com/embed/"></iframe>
+                    </div>
+                </div>
+                <div class="col-12 col-lg-6 order-2 order-lg-2">
+                    <ul class="list-group">
+                        {% for base in bases %}
+                            <li class="list-group-item">
+                                <a href="#" onclick="event.preventDefault(); playVideo('{{ base.enlace }}');">
+                                    {{ base.nombre }}
+                                </a>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+        </div>   
+    </div>   
+    <!-- /.container-fluid -->
+
+            </div>
+            <!-- End of Main Content -->
+
+            
+
+        </div>
+        <!-- End of Content Wrapper -->
+
+    </div>
+    <!-- End of Page Wrapper -->
+
+    <!-- Scroll to Top Button-->
+    <a class="scroll-to-top rounded" href="#page-top">
+        <i class="fas fa-angle-up"></i>
+    </a>
+
+    <!-- Logout Modal-->
+    <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">¿Listo para salir?</h5>
+                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <div class="modal-body">Presiona Salir para dirigirte a la página de Inicio de Sesión.</div>
+                <div class="modal-footer">
+                    <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancelar</button>
+                    <a class="btn btn-primary" href="{% url "login" %}">Salir</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    
+    
+
+{% endblock content %}

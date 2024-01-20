@@ -1,0 +1,8 @@
+{% autoescape off %}  
+Hola {{ user.username }}. 
+
+Tu cuenta ha sido creada con éxito!!! Esperamos aprendas mucho :)
+
+Puedes iniciar sesión en nuestra web:
+http://{{ domain }}{% url 'login' %}  
+{% endautoescape %}  

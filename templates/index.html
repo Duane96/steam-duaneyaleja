@@ -1,0 +1,345 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <title>Duane y Aleja</title>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="format-detection" content="telephone=no">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="author" content="">
+  <meta name="keywords" content="">
+  <meta name="description" content="">
+  <link rel="stylesheet" type="text/css" href="css/vendor.css">
+  <link rel="stylesheet" type="text/css" href="fonts/icomoon.css">
+
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
+
+  <link rel="stylesheet" type="text/css" href="{% static "landing/style.css" %}">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper/swiper-bundle.min.css">
+
+</head>
+
+<body>
+
+  <div class="preloader-wrapper">
+    <div class="preloader">
+    </div>
+  </div>
+
+  <nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top py-4">
+    <div class="container-fluid">
+      <div class="main-logo">
+        <a href="{% url "index" %}">
+          <img src="{% static "landing/images/logo.png" %}" alt="logo">
+        </a>
+      </div>
+      <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar"
+        aria-controls="offcanvasNavbar">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel">
+        <div class="offcanvas-header">
+          <h5 class="offcanvas-title" id="offcanvasNavbarLabel">Inicio</h5>
+          <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+        </div>
+        <div class="offcanvas-body">
+          <ul class="navbar-nav justify-content-end align-items-center flex-grow-1 pe-3 gap-4">
+            <li class="nav-item text-uppercase">
+              <a href="#hero-section" class="nav-link active">Inicio</a>
+            </li>
+            <li class="nav-item text-uppercase">
+              <a href="#about-us" class="nav-link">Nosotros</a>
+            </li>
+            <li class="nav-item text-uppercase">
+              <a class="nav-link" href="#videos" id="dropdownPages" 
+                aria-haspopup="true" aria-expanded="false">Grupos</a>
+            </li>
+            
+            <li class="nav-item text-uppercase">
+              <a href="#instagram" class="nav-link">Galería</a>
+            </li>
+            <li class="nav-item text-uppercase">
+                <a href="#newsletter" class="nav-link">Contacto</a>
+              </li>
+            <li class="nav-item text-uppercase">
+              <a href="{% url "login" %}" target="_blank"
+                class="item-anchor btn btn-outline-primary rounded-pill">STEAM</a>
+            </li>
+            <li class="user-items">
+              <div class="search-bar">
+                <a href="#" class="search-button search-toggle" data-selector=".primary-nav">
+                  <i class="icon icon-search"></i>
+                </a>
+                <form role="search" method="get" class="search-box" action="index.html">
+                  <input class="search-field search-input" placeholder="Search" type="search">
+                </form>
+              </div>
+              <a href="#" class="shopping-cart">
+                <i class="icon icon-shopping-cart"></i>
+              </a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <section id="hero-section" class="text-center jarallax mt-5 py-5">
+    <img src="{% static "landing/images/banner.jpg" %}" alt="dancer" class="jarallax-img">
+    <div class="banner-content py-5 my-5">
+      <div class="container">
+        <div class="row justify-content-center">
+          <div class="col-md-6">
+            <h1 class="text-white display-1 mt-5">Duane y Aleja</h1>
+            <span class="text-white">Somos bailarines y profesores de Bachata Sensual.
+                Nuestro objetivo es formar y enseñar a todas las personas que dessen aprender de nosotros sin 
+                distinción de edad o género.
+            </span>
+            <div class="buttons d-flex flex-wrap justify-content-center gap-3 my-4">
+              <a href="#horario" class="btn btn-medium btn-primary rounded-pill">Clases Presenciales</a>
+              <a href="{% url "login" %}" class="btn btn-medium btn-dark rounded-pill">Clases Virtuales</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="about-us" class="padding-large">
+    <div class="container">
+      <div class="row align-items-center">
+        <div class="col-md-6">
+          <img src="{% static "landing/images/dya.png" %}" alt="image" class="img-fluid">
+        </div>
+        <div class="col-md-6">
+          <div class="block-text">
+            <h2 class="section-title" data-aos="fade-up" data-aos-delay="0">
+              <span class="text-primary">Un poco de</span> Duane y Aleja
+            </h2>
+            <p data-aos="fade-up" data-aos-delay="100">Desde el año 2021 decidimos juntar nuestra pasión por la danza
+                para crear un estilo propio de Bachata Sensual que nos permita expresarnos a la hora de bailar.
+            </p>
+            <p data-aos="fade-up" data-aos-delay="100">Somos felices bailando y enseñando, nuestro lema es: "todos
+                pueden bailar" sin importar edad, género o clase social y nuestro trabajo es demostrarlo con nuestras clases.
+            </p>
+            
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="videos">
+    <div class="container-fluid">
+      <div class="row">
+        <div class="section-header">
+          <h2 class="section-title text-center">
+            <span class="text-primary">Únete</span> a nuestras clases presenciales
+          </h2>
+        </div>
+        <div class="row">
+          <div class="col-md-6">
+            <div class="class-item" data-aos="fade" data-aos-delay="0">
+              <figure>
+                <img src="{% static "landing/images/socialteam.jpg" %}" alt="video">
+                <figcaption class="p-5 text-white">
+                  <h2 class="text-white m-0">Social Team</h2>
+                  <p class="m-0">Nuestro grupo Básico-Intermedio.</p>
+                  
+                </figcaption>
+              </figure>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="class-item" data-aos="fade" data-aos-delay="100">
+              <figure>
+                <img src="{% static "landing/images/sensualteam.jpg" %}" alt="video">
+                <figcaption class="p-5 text-white">
+                  <h2 class="text-white m-0">Sensual Team</h2>
+                  <p class="m-0">Nuestro grupo Intermedio-Avanzado.</p>
+                  
+                </figcaption>
+              </figure>
+            </div>
+          </div>
+        </div>
+        
+  </section>
+
+  <section class="my-2 py-2 my-lg-5 py-lg-5" id="horario">
+    <div class="container">
+      <h2>Horarios de Clases Presenciales</h2>
+      <div class="table-responsive">
+        <table class="table table-striped
+        table-hover	
+        table-borderless
+        align-middle">
+          <thead>
+            <tr>
+              <th>Clase</th>
+              <th>Día</th>
+              <th>Hora</th>
+              <th>Nivel</th>
+              <th>Valor</th>
+            </tr>
+          </thead>
+          <tbody class="table-group-divider">
+            <tr>
+              <td><strong>Social Team</strong></td>
+              <td>Lunes</td>
+              <td>7:00 PM a 9:00 PM</td>
+              <td>Básico-Intermedio</td>
+              <td>$40.000</td>
+              
+            </tr>
+            <tr>
+              <td><strong>Sensual Team</strong></td>
+              <td>Jueves</td>
+              <td>7:30 PM a 9:30 PM</td>
+              <td>Intermedio-Avanzado</td>
+              <td>$40.000</td>
+            </tr>
+            
+          </tbody>
+          <tfoot>
+
+          </tfoot>
+        </table>
+      </div>
+
+      
+
+    </div>
+  </section>
+
+  <section id="instagram">
+    <div class="section-header text-center">
+      <h2 class="section-title">
+        <span class="text-primary">Nuestro</span> Trabajo
+      </h2>
+    </div>
+    <div class="container-fluid">
+      <div class="row">
+        
+          <div class="col-md-3 col-sm-6">
+            <iframe width=»315″ height=»560″
+                src="https://www.youtube.com/embed/i8xyR71FW3A"
+                        title="YouTube video player"
+                        frameborder="0"
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                        allowfullscreen>
+            </iframe>
+          </div>
+          <div class="col-md-3 col-sm-6">
+            <iframe width=»315″ height=»560″
+                src="https://www.youtube.com/embed/8Iky3wKF3nE"
+                        title="YouTube video player"
+                        frameborder="0"
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                        allowfullscreen>
+            </iframe>
+          </div>
+          <div class="col-md-3 col-sm-6">
+            <iframe width=»315″ height=»560″
+                src="https://www.youtube.com/embed/OZBiB2ww8C8"
+                        title="YouTube video player"
+                        frameborder="0"
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                        allowfullscreen>
+            </iframe>
+          </div>
+          <div class="col-md-3 col-sm-6">
+            <iframe width=»315″ height=»560″
+                src="https://www.youtube.com/embed/jti_FjeY_X8"
+                        title="YouTube video player"
+                        frameborder="0"
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                        allowfullscreen>
+            </iframe>
+          </div>
+          
+        
+      </div>
+    </div>
+  </section>
+
+  <section id="newsletter" class="newsletter padding-large no-padding-top">
+    <div class="container position-relative">
+      <div class="row justify-content-center">
+        <div class="col-md-4">
+          <div class="image-holder">
+            <img src="{% static "landing/images/dya.png" %}" alt="dancer" class="newsletter-image">
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="form-content">
+            <div class="section-header">
+              <h2 class="section-title text-center mb-0">
+                <span class="text-primary">Escribenos</span> Para más Información
+              </h2>
+            </div>
+              <div class="btn-submit align-center">
+                <a class="submit btn btn-pill btn-medium btn-primary btn-full" type="submit"
+                href="https://wa.me/573223654576" target="_blank">Whatsapp</a>
+              </div>
+              <div class="btn-submit align-center">
+                <a class="submit btn btn-pill btn-medium btn-primary btn-full" type="submit"
+                href="https://www.instagram.com/duaneyaleja.bachata/" target="_blank">Instagram</a>
+              </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  
+  <footer id="footer" class="padding-large">
+    <div class="container">
+      <div class="footer-content row">
+        <div class="col-md-4">
+          <div class="footer-menu">
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="footer-logo align-center">
+            <img src="{% static "landing/images/logo.png" %}" alt="logo">
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="social-links">
+            <ul class="d-flex list-unstyled justify-content-md-end justify-content-center">
+              <li>
+                <a href="#">
+                  <i class="icon icon-facebook"></i>
+                </a>
+              </li>
+              <li>
+                <a href="#">
+                  <i class="icon icon-twitter"></i>
+                </a>
+              </li>
+              <li>
+                <a href="#">
+                  <i class="icon icon-youtube"></i>
+                </a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </footer>
+  <script src="{% static "landing/js/jquery-1.11.0.min.js" %}"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm"
+    crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/swiper/swiper-bundle.min.js"></script>
+  <script src="{% static "landing/js/plugins.js" %}"></script>
+  <script src="{% static "landing/js/script.js" %}"></script>
+</body>
+
+</html>

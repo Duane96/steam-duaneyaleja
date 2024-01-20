@@ -1,0 +1,140 @@
+{% extends "base.html" %}
+{% load static %}
+
+
+{% block titulo %}STEAM{% endblock titulo %}STEAM
+
+{% block clasebody %}id="page-top"{% endblock clasebody %}
+
+{% block content %}
+
+
+    <!-- Page Wrapper -->
+    <div id="wrapper">
+
+        {% block sidebar %}{% include "sidebar.html" %}{% endblock sidebar %}
+
+        <!-- Content Wrapper -->
+        <div id="content-wrapper" class="d-flex flex-column">
+
+            <!-- Main Content -->
+            <div id="content">
+                {% block topbar %}{% include "top-bar.html" %}{% endblock topbar %}
+
+                <!-- Begin Page Content -->
+                <div class="container-fluid">
+                    <h2>Registro de administrador</h2>
+                    {% for message in messages %}
+                      <div class="alert alert-{{ message.tags }}">
+                        {{ message }}
+                      </div>
+                    {% endfor %}
+  <form method="POST">
+  {% csrf_token %}
+  {% for field in form %}
+    {% for error in field.errors %}
+        <p style="color: red">{{ error }}</p>
+    {% endfor %}
+{% endfor %}
+    <div class="form-group row">
+      <label for="{{ form.username.id_for_label }}" class="col-sm-4 col-form-label">{{ form.username.label }}</label>
+      <div class="col-sm-8">
+        {{ form.username }}
+      </div>
+    </div>
+    <div class="form-group row">
+      <label for="{{ form.email.id_for_label }}" class="col-sm-4 col-form-label">{{ form.email.label }}</label>
+      <div class="col-sm-8">
+        {{ form.email }}
+      </div>
+    </div>
+    <div class="form-group row">
+      <label for="{{ form.telefono.id_for_label }}" class="col-sm-4 col-form-label">{{ form.telefono.label }}</label>
+      <div class="col-sm-8">
+        {{ form.telefono }}
+      </div>
+    </div>
+    <div class="form-group row">
+      <label for="{{ form.tipo_usuario.id_for_label }}" class="col-sm-4 col-form-label">{{ form.tipo_usuario.label }}</label>
+      <div class="col-sm-8">
+        {{ form.tipo_usuario }}
+      </div>
+    </div>
+    <div class="form-group row">
+      <label for="{{ form.fecha_inicio.id_for_label }}" class="col-sm-4 col-form-label">{{ form.fecha_inicio.label }}</label>
+      <div class="col-sm-8">
+        {{ form.fecha_inicio }}
+      </div>
+    </div>
+    <div class="form-group row">
+      <label for="{{ form.fecha_fin.id_for_label }}" class="col-sm-4 col-form-label">{{ form.fecha_fin.label }}</label>
+      <div class="col-sm-8">
+        {{ form.fecha_fin }}
+      </div>
+    </div>
+    <div class="form-group row">
+      <label for="{{ form.plan.id_for_label }}" class="col-sm-4 col-form-label">{{ form.plan.label }}</label>
+      <div class="col-sm-8">
+        {{ form.plan }}
+      </div>
+    </div>
+    <div class="form-group row">
+        <label for="{{ form.tipo_pago.id_for_label }}" class="col-sm-4 col-form-label">{{ form.tipo_pago.label }}</label>
+        <div class="col-sm-8">
+          {{ form.tipo_pago }}
+        </div>
+      </div>
+    <div class="text-center">
+      <button type="submit" class="btn btn-primary">Registrar</button>
+    </div>
+  </form>
+
+                    
+                </div>
+                <!-- /.container-fluid -->
+
+            </div>
+            <!-- End of Main Content -->
+
+            <!-- Footer -->
+            <footer class="sticky-footer bg-white">
+                <div class="container my-auto">
+                    <div class="copyright text-center my-auto">
+                        <span>Copyright &copy; Your Website 2020</span>
+                    </div>
+                </div>
+            </footer>
+            <!-- End of Footer -->
+
+        </div>
+        <!-- End of Content Wrapper -->
+
+    </div>
+    <!-- End of Page Wrapper -->
+
+    <!-- Scroll to Top Button-->
+    <a class="scroll-to-top rounded" href="#page-top">
+        <i class="fas fa-angle-up"></i>
+    </a>
+
+    <!-- Logout Modal-->
+    <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">¿Listo para salir?</h5>
+                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <div class="modal-body">Presiona Salir para dirigirte a la página de Inicio de Sesión.</div>
+                <div class="modal-footer">
+                    <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancelar</button>
+                    <a class="btn btn-primary" href="{% url "login" %}">Salir</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock content %}
