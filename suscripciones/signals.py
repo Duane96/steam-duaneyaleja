@@ -29,4 +29,4 @@ def crear_qr(sender, instance, created, **kwargs):
         temp_handle.seek(0)
 
         # Guarda la imagen en el campo 'codigo_qr'
-        instance.codigo_qr.save(os.path.join('qrcodes', f'{instance.user.username}_qr.png'), ContentFile(temp_handle.read()), save=True)
+        instance.codigo_qr.save(f'{instance.user.username}_qr.png', ContentFile(temp_handle.read()), save=True)
