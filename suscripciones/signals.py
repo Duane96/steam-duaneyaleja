@@ -28,10 +28,10 @@ def crear_qr(sender, instance, created, **kwargs):
         temp_handle.seek(0)
 
         # Limita la longitud del nombre de usuario a 100 caracteres
-        nombre_usuario_corto = instance.user.username[:100]
+        nombre_usuario_corto = str(instance.user.username[:100])
 
         # Genera el nombre del archivo
-        nombre_archivo = os.path.join('qrcodes', f'{nombre_usuario_corto}_qr.png')
+        nombre_archivo = 'qrcodes/%s_qr.png' % nombre_usuario_corto
 
         # Verifica si el archivo ya existe
         if instance.codigo_qr.storage.exists(nombre_archivo):

@@ -145,10 +145,10 @@ SESSION_EXPIRE_AT_BROWSER_CLOSE = False
 
 SESSION_COOKIE_AGE = 604800  # 7 días en segundos
 
-
+import os
 # URL que maneja los archivos multimedia en modo desarrollo
 MEDIA_URL = '/media/'
-MEDIA_ROOT = BASE_DIR, 'media'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 
 
