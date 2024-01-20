@@ -74,6 +74,9 @@ def admin_signup(request):
                 perfil.tipo_pago = form.cleaned_data.get('tipo_pago')
                 perfil.plan = form.cleaned_data.get('plan')
                 perfil.save()
+                
+            # Aquí es donde se crea la asistencia
+            Asistencia.objects.create(usuario=user, numero_clase=1)    
 
             # Obtiene la información del sitio actual
             current_site = get_current_site(request)
