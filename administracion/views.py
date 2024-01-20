@@ -76,7 +76,11 @@ def admin_signup(request):
                 perfil.save()
                 
             # Aquí es donde se crea la asistencia
-            Asistencia.objects.create(usuario=user, numero_clase=1)    
+            Asistencia.objects.create(usuario=user, numero_clase=1)
+            
+            # Aquí es donde podrías crear el pago
+            Pago.objects.create(user=user, plan=perfil.plan, fecha_inicio=perfil.fecha_inicio, fecha_fin=perfil.fecha_fin, tipo_pago=perfil.tipo_pago)
+  
 
             # Obtiene la información del sitio actual
             current_site = get_current_site(request)
