@@ -47,7 +47,7 @@
     </li>
     {% endif %}
     
-    {% if user.perfil.tipo_usuario.nombre == "grupo" or user.perfil.tipo_usuario.nombre == "full" %}
+    {% if tiene_clases_disponibles and not es_fecha_fin %}
     <li class="nav-item">
         <a class="nav-link " href="{% url "sensualteam" %}" data-toggle="" data-target="">
             <i class="fa fa-play"></i>
@@ -57,7 +57,7 @@
     {% endif %}
 
     
-    {% if user.perfil.tipo_usuario.nombre == "grupo" or user.perfil.tipo_usuario.nombre == "full" %}
+    {% if tiene_clases_disponibles and not es_fecha_fin %}
     <li class="nav-item">
         <a class="nav-link " href="{% url "socialteam" %}" data-toggle="" data-target="">
             <i class="fa fa-play"></i>

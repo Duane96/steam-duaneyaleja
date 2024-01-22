@@ -24,7 +24,14 @@
                 <!-- Begin Page Content -->
                 <div class="container-fluid">
                     
-                    <h1>Bienvenido a STEAM</h1>
+                    {% if not tiene_clases_disponibles or es_fecha_fin %}
+                        <div class="alert alert-warning" role="alert">
+                            <h2>Tu plan ya ha culminado, debes ponerte al día.</h2>
+                        </div>
+                    {% else %}
+                        <h1>Bienvenido a STEAM</h1>
+                    {% endif %}
+
 
                     
                 </div>

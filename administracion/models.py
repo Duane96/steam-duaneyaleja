@@ -24,6 +24,7 @@ class Pago(models.Model):
 
 class Asistencia(models.Model):
     usuario = models.ForeignKey(User, on_delete=models.CASCADE)
+    pago = models.ForeignKey(Pago, on_delete=models.CASCADE)  # Nuevo campo
     fecha = models.DateField(auto_now_add=True)
     numero_clase = models.IntegerField()
 

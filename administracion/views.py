@@ -35,6 +35,8 @@ from django.views.decorators.csrf import csrf_exempt
 from .decorators import admin_required
 from django.utils.decorators import method_decorator
 
+from django.utils import timezone
+
 
 
 # Create your views here.
@@ -75,11 +77,13 @@ def admin_signup(request):
                 perfil.plan = form.cleaned_data.get('plan')
                 perfil.save()
                 
-            # Aquí es donde se crea la asistencia
-            Asistencia.objects.create(usuario=user, numero_clase=1)
+             # Aquí es donde podrías crear el pago
+            pago = Pago.objects.create(user=user, plan=perfil.plan, fecha_inicio=perfil.fecha_inicio, fecha_fin=perfil.fecha_fin, tipo_pago=perfil.tipo_pago)
             
-            # Aquí es donde podrías crear el pago
-            Pago.objects.create(user=user, plan=perfil.plan, fecha_inicio=perfil.fecha_inicio, fecha_fin=perfil.fecha_fin, tipo_pago=perfil.tipo_pago)
+            # Aquí es donde se crea la asistencia
+            Asistencia.objects.create(usuario=user, pago=pago, numero_clase=1)
+            
+           
   
 
             # Obtiene la información del sitio actual
@@ -128,19 +132,33 @@ def editar_perfil(request, user_id):
     if request.method == 'POST':
         form = EditarPerfilForm(request.POST, instance=perfil)
         if form.is_valid():
-            form.save()
-            
+            # Crear un nuevo pago
             pago = Pago.objects.create(
-            user=perfil.user,
-            plan=perfil.plan,
-            fecha_inicio=perfil.fecha_inicio,
-            fecha_fin=perfil.fecha_fin,
-            tipo_pago=perfil.tipo_pago,
-        )
+                user=perfil.user,
+                plan=perfil.plan,
+                fecha_inicio=perfil.fecha_inicio,
+                fecha_fin=perfil.fecha_fin,
+                tipo_pago=perfil.tipo_pago,
+            )
+            
+             # Guardar explícitamente el pago
+            
+            
+            pago.save()
+            
+             
+            
+            # Cambiar el tipo de usuario a 'grupo', 'full', 'cursos' o cualquier otro estado que desees
+            perfil.tipo_usuario = TipoUsuario.objects.get(nombre='grupo')  # Asegúrate de que 'grupo' es un nombre válido en tu modelo TipoUsuario
+            
+            perfil.save()  # Guarda el perfil
+
             return redirect('lista_usuarios')
     else:
         form = EditarPerfilForm(instance=perfil)
     return render(request, 'administracion/editarperfil.html', {'form': form, 'username': perfil.user.username})
+
+
 
 
 
@@ -206,16 +224,49 @@ class SocialCreateView(CreateView):
 @admin_required
 @csrf_exempt
 def registrar_asistencia(request):
+    if request.method != 'POST':
+        return JsonResponse({"message": "Método no permitido"}, status=405)
+
     email, dominio = request.POST['qr_data'].split('|')
     if dominio == 'duaneyaleja.com.co':
         usuario = User.objects.get(email=email)
-        numero_clase = Asistencia.objects.filter(usuario=usuario).count() + 1
-        Asistencia.objects.create(usuario=usuario, numero_clase=numero_clase)
+        perfil = Perfil.objects.get(user=usuario)
+
+        # Verificar si el usuario ya está desactivado
+        if perfil.tipo_usuario.nombre == 'desactivado':
+            messages.error(request, 'Usuario desactivado')
+            return JsonResponse({"message": "Usuario desactivado"}, status=400)
+
+        # Obtener el último pago del usuario
+        ultimo_pago = Pago.objects.filter(user=usuario).latest('fecha_inicio')
+
+        # Contar las asistencias asociadas con el último pago
+        asistencias_desde_ultimo_pago = Asistencia.objects.filter(usuario=usuario, pago=ultimo_pago).count()
+
+        # Verificar si la fecha_fin es igual a la fecha actual
+        if perfil.fecha_fin == timezone.now().date():
+            messages.error(request, 'Fecha de plan expirada')
+            return JsonResponse({"message": "Fecha de plan expirada"}, status=400)
+
+        # Verificar si el usuario tiene clases disponibles
+        if ultimo_pago and asistencias_desde_ultimo_pago >= ultimo_pago.plan.cantidad_clases:
+            messages.error(request, 'Usuario sin clases disponibles')
+            return JsonResponse({"message": "Usuario sin clases disponibles"}, status=400)
+
+        # Registrar la asistencia
+        numero_clase = asistencias_desde_ultimo_pago + 1
+        Asistencia.objects.create(usuario=usuario, pago=ultimo_pago, numero_clase=numero_clase)  # Asociar la asistencia con el último pago
         messages.success(request, 'Asistencia registrada con éxito')
+
         return JsonResponse({"message": "Asistencia registrada con éxito"})
     else:
         messages.error(request, 'QR no válido')
         return JsonResponse({"message": "Código QR no válido"}, status=400)
+
+
+
+
+
 
 
 @admin_required    
