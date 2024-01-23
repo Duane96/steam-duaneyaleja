@@ -47,6 +47,7 @@
                                             <th>Fecha inicio</th>
                                             <th>Fecha fin</th>
                                             <th>Tipo de pago</th>
+                                            <th>Teléfono</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -58,6 +59,7 @@
                                                 <td>{{ pago.fecha_inicio|date:"d/m/Y"  }}</td>
                                                 <td>{{ pago.fecha_fin|date:"d/m/Y"  }}</td>
                                                 <td>{{ pago.get_tipo_pago_display }}</td>
+                                                <td>{{ pago.user.perfil.telefono }}</td>
                                             </tr>
                                         {% endfor %}
                                     </tbody>

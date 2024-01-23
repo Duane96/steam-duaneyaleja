@@ -8,14 +8,19 @@ def clases_disponibles(request):
         usuario = request.user
         perfil = Perfil.objects.get(user=usuario)
 
-        # Obtén el último pago del usuario
-        ultimo_pago = Pago.objects.filter(user=usuario).latest('fecha_inicio')
+        # Comprueba si el usuario tiene al menos un Pago
+        if Pago.objects.filter(user=usuario).exists():
+            # Si el usuario tiene al menos un Pago, obtén el último
+            ultimo_pago = Pago.objects.filter(user=usuario).latest('fecha_inicio')
 
-        # Cuenta las asistencias asociadas con el último pago
-        asistencias_desde_ultimo_pago = Asistencia.objects.filter(usuario=usuario, pago=ultimo_pago).count()
+            # Cuenta las asistencias asociadas con el último pago
+            asistencias_desde_ultimo_pago = Asistencia.objects.filter(usuario=usuario, pago=ultimo_pago).count()
 
-        # Determina si el usuario tiene clases disponibles
-        tiene_clases_disponibles = ultimo_pago and asistencias_desde_ultimo_pago < ultimo_pago.plan.cantidad_clases
+            # Determina si el usuario tiene clases disponibles
+            tiene_clases_disponibles = ultimo_pago and asistencias_desde_ultimo_pago < ultimo_pago.plan.cantidad_clases
+        else:
+            # Si el usuario no tiene ningún Pago, no tiene clases disponibles
+            tiene_clases_disponibles = False
 
         # Determina si la fecha_fin es menor que la fecha actual
         es_fecha_fin = perfil.fecha_fin < timezone.now().date()

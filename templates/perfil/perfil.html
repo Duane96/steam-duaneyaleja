@@ -33,7 +33,7 @@
                                   <tbody>
                                     <tr><th>Nombre de usuario</th><td>{{ perfil.user.username }}</td></tr>
                                     <tr><th>Código QR</th><td>{% if perfil.codigo_qr %}
-                                        <img src="{{ perfil.codigo_qr.url }}" alt="Código QR">
+                                        <img src="{{ perfil.codigo_qr.url }}" alt="Código QR" class="img-fluid">
                                         <a href="{{ perfil.codigo_qr.url }}" download>Descargar Código QR</a>
                                         {% else %}
                                         No disponible

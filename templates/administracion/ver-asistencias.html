@@ -25,31 +25,38 @@
                 <div class="container-fluid">
                     
                     <h2>Asistencias</h2>
-  {% if asistencias %}
-  <!-- DataTales Example -->
-  <div class="card shadow mb-4">
-    <div class="card-header py-3">
-        <h6 class="m-0 font-weight-bold text-primary">Listado de Usuarios</h6>
-    </div>
-    <div class="card-body">
-        <div class="table-responsive">
-            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-    <tr>
-      <th>Usuario</th>
-      <th>Fecha</th>
-      <th>Número de clase</th>
-    </tr>
-    {% for asistencia in asistencias %}
-    <tr>
-      <td>{{ asistencia.usuario.username }}</td>
-      <td>{{ asistencia.fecha }}</td>
-      <td>{{ asistencia.numero_clase }}</td>
-    </tr>
-    {% endfor %}
-  </table>
-  {% else %}
-  <p>No hay asistencias registradas.</p>
-  {% endif %}
+                    {% if asistencias %}
+                        <!-- DataTales Example -->
+                        <div class="card shadow mb-4">
+                            <div class="card-header py-3">
+                                <h6 class="m-0 font-weight-bold text-primary">Listado de Usuarios</h6>
+                            </div>
+                            <div class="card-body">
+                                <div class="table-responsive">
+                                    <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                                        <thead>
+                                            <tr>
+                                                <th>Usuario</th>
+                                                <th>Fecha</th>
+                                                <th>Número de clase</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {% for asistencia in asistencias %}
+                                                <tr>
+                                                    <td>{{ asistencia.usuario.username }}</td>
+                                                    <td>{{ asistencia.fecha }}</td>
+                                                    <td>{{ asistencia.numero_clase }}</td>
+                                                </tr>
+                                            {% endfor %}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    {% else %}
+                        <p>No hay asistencias registradas.</p>
+                    {% endif %}
                     
                 </div>
                 <!-- /.container-fluid -->
