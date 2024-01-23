@@ -163,11 +163,26 @@ def editar_perfil(request, user_id):
 
 
 #Suma de montos y muestra de todos los pagos
+def normalizar_tipo_pago(tipo_pago):
+    # Convierte el tipo de pago a minúsculas
+    tipo_pago = tipo_pago.lower()
+
+    # Mapea las diferentes formas de ingresar el tipo de pago a un valor estándar
+    if tipo_pago in ['ef', 'efectivo']:
+        return 'EF'
+    elif tipo_pago in ['tr', 'transferencia']:
+        return 'TR'
+    else:
+        return tipo_pago  # Si no es ninguno de los anteriores, devuelve el valor original
+
 @admin_required
 def administracion(request):
     pagos = Pago.objects.all()
-    total_efectivo = Pago.objects.filter(tipo_pago='EF').aggregate(Sum('plan__precio'))['plan__precio__sum'] or 0
-    total_transferencia = Pago.objects.filter(tipo_pago='TR').aggregate(Sum('plan__precio'))['plan__precio__sum'] or 0
+
+    # Normaliza los tipos de pago solo para el propósito de las sumas
+    total_efectivo = sum(pago.plan.precio for pago in pagos if normalizar_tipo_pago(pago.tipo_pago) == 'EF')
+    total_transferencia = sum(pago.plan.precio for pago in pagos if normalizar_tipo_pago(pago.tipo_pago) == 'TR')
+
     return render(request, 'administracion/pagos-admin.html', {'pagos': pagos, 'total_efectivo': total_efectivo, 'total_transferencia': total_transferencia})
 
 #Añadir videos
