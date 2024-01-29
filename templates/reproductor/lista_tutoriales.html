@@ -52,10 +52,10 @@
                 </div>
                 <div class="col-12 col-lg-6 order-2 order-lg-2">
                     <ul class="list-group">
-                        {% for tutorial in tutoriales %}
+                        {% for clase in clases %}
                             <li class="list-group-item">
-                                <a href="#" onclick="event.preventDefault(); playVideo('{{ tutorial.enlace }}');">
-                                    {{ tutorial.nombre }}
+                                <a href="#" onclick="event.preventDefault(); playVideo('{{ clase.enlace }}');">
+                                    {{ clase.nombre }}
                                 </a>
                             </li>
                         {% endfor %}
