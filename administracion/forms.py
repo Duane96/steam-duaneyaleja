@@ -6,7 +6,7 @@ from suscripciones.models import Perfil
 
 from django.views.generic.edit import CreateView
 from django.urls import reverse_lazy
-from videos.models import Base, Extra, ClaseVistaSensual, ClaseVistaSocial
+from videos.models import Base, Extra, ClaseVistaSensual, ClaseVistaSocial, Tutoriales
 
 class AdminSignupForm(UserCreationForm):
     telefono = forms.CharField(max_length=20)
@@ -68,4 +68,9 @@ class SensualModelForm(forms.ModelForm):
 class SocialModelForm(forms.ModelForm):
     class Meta:
         model = ClaseVistaSocial
+        fields = ['nombre', 'descripcion', 'enlace']
+        
+class TutorialesModelForm(forms.ModelForm):
+    class Meta:
+        model = Tutoriales
         fields = ['nombre', 'descripcion', 'enlace']

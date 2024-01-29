@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from .models import Base, Extra, ClaseVistaSensual, ClaseVistaSocial
+from .models import Base, Extra, ClaseVistaSensual, ClaseVistaSocial, Tutoriales
 
 def lista_base(request):
     bases = Base.objects.all()
@@ -22,3 +22,7 @@ def sensualteam(request):
 
 def socialteam(request):
     return render(request, 'reproductor/socialteam.html')
+
+def lista_tutoriales(request):
+    clases = Tutoriales.objects.all()
+    return render(request, 'reproductor/lista_tutoriales.html', {'clases': clases})

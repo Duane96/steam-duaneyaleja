@@ -1,0 +1,182 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block titulo %}Intensivo{% endblock titulo %}
+
+{% block clasebody %}class="bg-gradient-primary"{% endblock clasebody %}
+
+{% block content %}
+    <div class="container">
+        <div class="card o-hidden border-0 shadow-lg my-5">
+            <div class="card-body p-0">
+                <div class="row">
+                    <div class="col-lg-5 d-none d-lg-block bg-intensivo-image"></div>
+                    <div class="col-lg-7">
+                        <div class="p-5">
+                            <div class="text-center">
+                                <h1>Intensivo "{{intensivo.nombre}}"</h1><br>
+                                <h1 class="h4 text-gray-900 mb-4">Registro de Participante</h1>
+                            </div>
+                            <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+                            <form method="POST" enctype="multipart/form-data" class="form-group">
+                                {% csrf_token %}
+                                <div class="form-group">
+                                    {{ form.nombre.label_tag }}
+                                    <input type="text" class="form-control" id="{{ form.nombre.id_for_label }}" name="{{ form.nombre.html_name }}" value="{{ form.nombre.value|default_if_none:'' }}">
+                                    {% if form.nombre.errors %}
+                                        <div class="alert alert-danger">
+                                            {{ form.nombre.errors|join:", " }}
+                                        </div>
+                                    {% endif %}
+                                </div>
+                                <div class="form-group">
+                                    {{ form.correo.label_tag }}
+                                    <input type="email" class="form-control" id="{{ form.correo.id_for_label }}" name="{{ form.correo.html_name }}" value="{{ form.correo.value|default_if_none:'' }}">
+                                    {% if form.nombre.errors %}
+                                        <div class="alert alert-danger">
+                                            {{ form.nombre.errors|join:", " }}
+                                        </div>
+                                    {% endif %}
+                                </div>
+                                <div class="form-group">
+                                    {{ form.telefono.label_tag }}
+                                    <input type="text" class="form-control" id="{{ form.telefono.id_for_label }}" name="{{ form.telefono.html_name }}" value="{{ form.telefono.value|default_if_none:'' }}">
+                                    {% if form.nombre.errors %}
+                                        <div class="alert alert-danger">
+                                            {{ form.nombre.errors|join:", " }}
+                                        </div>
+                                    {% endif %}
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" id="{{ form.viene_en_pareja.id_for_label }}" name="{{ form.viene_en_pareja.html_name }}" value="{{ form.viene_en_pareja.value|default_if_none:'' }}">
+                                    <label class="form-check-label" for="{{ form.viene_en_pareja.id_for_label }}">
+                                        {{ form.viene_en_pareja.label }}
+                                    </label>
+                                </div>
+                                <div id="pareja_info" style="display:none;">
+                                    <div class="form-group">
+                                        {{ form.nombre_pareja.label_tag }}
+                                        <input type="text" class="form-control" id="{{ form.nombre_pareja.id_for_label }}" name="{{ form.nombre_pareja.html_name }}" value="{{ form.nombre_pareja.value|default_if_none:'' }}">
+                                    </div>
+                                    <div class="form-group">
+                                        {{ form.correo_pareja.label_tag }}
+                                        <input type="email" class="form-control" id="{{ form.correo_pareja.id_for_label }}" name="{{ form.correo_pareja.html_name }}" value="{{ form.correo_pareja.value|default_if_none:'' }}">
+                                    </div>
+                                    <div class="form-group">
+                                        {{ form.telefono_pareja.label_tag }}
+                                        <input type="text" class="form-control" id="{{ form.telefono_pareja.id_for_label }}" name="{{ form.telefono_pareja.html_name }}" value="{{ form.telefono_pareja.value|default_if_none:'' }}">
+                                    </div>
+                                </div>
+                                <br>
+                                <br>
+                                {% if mostrar_seccion_1 %}
+                                <div id="seccion_1" style="display: {% if not form.viene_en_pareja.value %}block{% else %}none{% endif %};">
+                                    <h2>Primera Fecha de Pago Individual</h2>
+                                    <p>El precio a pagar es: COP {{ intensivo.precio_primera_fecha_solo }}</p>
+                                    <p><strong>Puedes transferir al Nequi: 3156284108 o a Transfiya 3223654576</strong></p>
+                                    <p>Recuerda revisar todos tus datos antes de enviar y subir el comprobante de pago.</p>
+                                    <br>
+                                </div>
+                                
+                                {% endif %}
+                                {% if mostrar_seccion_2 %}
+                                <div id="seccion_2" style="display: {% if not form.viene_en_pareja.value %}block{% else %}none{% endif %};">
+                                    <h2>Primera Fecha de Pago en Pareja</h2>
+                                    <p>El precio a pagar es: COP {{ intensivo.precio_primera_fecha_pareja }}</p>
+                                    <p><strong>Puedes transferir al Nequi: 3156284108 o a Transfiya 3223654576</strong></p>
+                                    <p>Recuerda llenar los datos de tu pareja y revisar todos tus datos antes de enviar y subir el comprobante de pago.</p>
+                                    <br>
+                                </div>
+                                
+                                {% endif %}
+                                {% if mostrar_seccion_3 %}
+                                <div id="seccion_3" style="display: {% if not form.viene_en_pareja.value %}block{% else %}none{% endif %};">
+                                    <h2>Segunda Fecha de Pago Individual</h2>
+                                    <p>El precio a pagar es: COP {{ intensivo.precio_segunda_fecha_solo }}</p>
+                                    <p><strong>Puedes transferir al Nequi: 3156284108 o a Transfiya 3223654576</strong></p>
+                                    <p>Recuerda revisar todos tus datos antes de enviar y subir el comprobante de pago.</p>
+                                    <br>
+                                </div>                                
+                                {% endif %}
+                                
+                                {% if mostrar_seccion_4 %}
+                                <div id="seccion_4" style="display: {% if not form.viene_en_pareja.value %}block{% else %}none{% endif %};">
+                                    <h2>Segunda Fecha de Pago en Pareja</h2>
+                                    <p>El precio a pagar es: COP {{ intensivo.precio_segunda_fecha_pareja }}</p>
+                                    <p><strong>Puedes transferir al Nequi: 3156284108 o a Transfiya 3223654576</strong></p>
+                                    <p>Recuerda llenar los datos de tu pareja y revisar todos tus datos antes de enviar y subir el comprobante de pago.</p>
+                                    <br>
+                                </div>
+                                {% endif %}
+                                
+
+                                <div class="form-group">
+                                    {{ form.screenshot_pago.label_tag }}
+                                    <input type="file" class="form-control-file" id="{{ form.screenshot_pago.id_for_label }}" name="{{ form.screenshot_pago.html_name }}" value="{{ form.screenshot_pago.value|default_if_none:'' }}">
+                                    {% if form.nombre.errors %}
+                                        <div class="alert alert-danger">
+                                            {{ form.nombre.errors|join:", " }}
+                                        </div>
+                                    {% endif %}
+                                </div>
+                                <button type="submit" class="btn btn-primary">Registrar</button>
+                            </form>
+                            
+                            
+                            
+                            
+                            <hr>
+                            
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    
+
+    <script>
+        $(document).ready(function(){
+            function mostrarSecciones() {
+                if($('#id_viene_en_pareja').is(':checked')){
+                    $('#pareja_info').fadeIn('slow');
+                    if({{ mostrar_seccion_2|yesno:"true,false" }}){
+                        $('#seccion_2').show();
+                        $('#seccion_1').hide();
+                    }
+                    if({{ mostrar_seccion_4|yesno:"true,false" }}){
+                        $('#seccion_4').show();
+                        $('#seccion_3').hide();
+                    }
+                } else {
+                    $('#pareja_info').fadeOut('slow');
+                    if({{ mostrar_seccion_1|yesno:"true,false" }}){
+                        $('#seccion_1').show();
+                        $('#seccion_2').hide();
+                    }
+                    if({{ mostrar_seccion_3|yesno:"true,false" }}){
+                        $('#seccion_3').show();
+                        $('#seccion_4').hide();
+                    }
+                }
+            }
+        
+            // Llama a la función cuando se carga la página
+            mostrarSecciones();
+        
+            $('#id_viene_en_pareja').change(mostrarSecciones);
+        });
+        </script>
+        
+        
+        
+        
+        
+        
+        
+        
+    
+           
+{% endblock content %}

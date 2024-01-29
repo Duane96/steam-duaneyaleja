@@ -30,6 +30,7 @@ urlpatterns = [
     path('videos/', include('videos.urls')),
     path('', include('suscripciones.urls')),
     path('administracion/', include('administracion.urls')),
+    path('', include('intensivos.urls')),
     
     
     

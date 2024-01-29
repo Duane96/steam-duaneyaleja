@@ -66,6 +66,15 @@
     </li>
     {% endif %}
 
+    {% if tiene_clases_disponibles and not es_fecha_fin %}
+    <li class="nav-item">
+        <a class="nav-link " href="{% url "tutoriales" %}" data-toggle="" data-target="">
+            <i class="fa fa-play"></i>
+            <span>Tutoriales</span>
+        </a>
+    </li>
+    {% endif %}
+
     {% if user.perfil.tipo_usuario.nombre == "desactivado" %}
     <li class="nav-item">
         <a class="nav-link " href="#" data-toggle="" data-target="">

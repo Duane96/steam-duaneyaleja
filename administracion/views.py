@@ -4,6 +4,9 @@ from .forms import AdminSignupForm, EditarPerfilForm
 from suscripciones.models import Perfil
 from .models import Pago, Asistencia
 
+from intensivos.models import Intensivo
+from intensivos.forms import IntensivoForm
+
 from django.shortcuts import redirect
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
@@ -24,7 +27,7 @@ from django.db.models import Sum
 
 from django.views.generic.edit import CreateView
 from django.urls import reverse_lazy
-from videos.models import Base, Extra, ClaseVistaSensual, ClaseVistaSocial
+from videos.models import Base, Extra, ClaseVistaSensual, ClaseVistaSocial, Tutoriales
 from .forms import *
 
 #QR
@@ -37,6 +40,10 @@ from django.utils.decorators import method_decorator
 
 from django.utils import timezone
 
+from django.db.models import Sum, Q
+from django.db.models.functions import TruncDate
+
+from intensivos.models import Intensivo, Participante
 
 
 # Create your views here.
@@ -296,4 +303,71 @@ def ver_asistencias(request):
 
 
 
+def normalizar_tipo_pago_listado(tipo_pago):
+    # Convierte el tipo de pago a minúsculas
+    tipo_pago = tipo_pago.lower()
 
+    # Mapea las diferentes formas de ingresar el tipo de pago a un valor estándar
+    if tipo_pago in ['ef', 'efectivo']:
+        return 'EF'
+    elif tipo_pago in ['tr', 'transferencia']:
+        return 'TR'
+    else:
+        return tipo_pago  # Si no es ninguno de los anteriores, devuelve el valor original
+
+from django.db.models import CharField
+from django.db.models.functions import Cast
+
+@admin_required
+def listado_ingresos(request):
+    # Convierte la fecha a una cadena en el formato 'YYYY-MM-DD'
+    pagos = Pago.objects.annotate(fecha=Cast('fecha_inicio', output_field=CharField()))
+
+    # Agrupa los pagos por fecha y calcula la suma de los pagos en efectivo y por transferencia para cada fecha
+    pagos = pagos.values('fecha').annotate(total_efectivo=Sum('plan__precio', filter=Q(tipo_pago='EF')))
+    pagos = pagos.values('fecha').annotate(total_transferencia=Sum('plan__precio', filter=Q(tipo_pago='TR')))
+
+    return render(request, 'administracion/listado_ingresos.html', {'pagos': pagos})
+
+
+
+@method_decorator(admin_required, name='dispatch') 
+class TutorialesCreateView(CreateView):
+    model = Tutoriales
+    form_class = TutorialesModelForm
+    template_name = 'administracion/tutorial-create.html'  # especifica el nombre de la plantilla aquí
+    success_url = reverse_lazy('tutorial-nuevo')  # URL a la que redirigir después de un éxito
+    
+    def form_valid(self, form):
+        messages.success(self.request, 'Agregado correctamente')
+        return super().form_valid(form)
+
+
+
+@admin_required
+def intensivo_list(request):
+    intensivos = Intensivo.objects.order_by('id')
+    return render(request, 'administracion/listaintensivo.html', {'intensivos': intensivos})
+
+@admin_required
+def intensivo_participantes(request, intensivo_id):
+    participantes = Participante.objects.filter(intensivo_id=intensivo_id)
+
+    return render(request, 'administracion/listaintensivo_participantes.html', {'participantes': participantes})
+
+
+
+
+
+@admin_required
+def registro_intensivo(request):
+    if request.method == 'POST':
+        form = IntensivoForm(request.POST)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Agregado correctamente')
+            return redirect('registro_intensivo')
+            
+    else:
+        form = IntensivoForm()
+    return render(request, 'administracion/crear-intensivo.html', {'form': form})

@@ -1,0 +1,87 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block titulo %}Intensivo{% endblock titulo %}
+
+{% block clasebody %}class="bg-gradient-primary"{% endblock clasebody %}
+
+{% block content %}
+    <div class="container">
+        <div class="card o-hidden border-0 shadow-lg my-5">
+            <div class="card-body p-0">
+                <div class="row">
+                    <div class="col-lg-5 d-none d-lg-block bg-intensivo-image"></div>
+                    <div class="col-lg-7">
+                        <div class="p-5">
+                            <div class="text-center">
+                                <h1>Intensivo Duane y Aleja</h1><br>
+                                <h1 class="h4 text-gray-900 mb-4">Registro de Participante</h1>
+                            </div>
+                            <h3>Registro Exitoso!</h3>
+                            <br>
+                            <h4>Revisa tu correo electrónico con la confirmación y tu QR de ingreso</h4>
+                            <br>
+                            <br>
+
+                            <h4>Te esperamos para Bachatear</h4><br>
+                            <h4>Recuerda llegar puntual :)</h4><br>
+
+                            <a class=" btn btn-primary" href="{% url "index" %}">Salir</a>
+                            
+                            
+                            
+                            
+                            <hr>
+                            
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    
+
+    <script>
+        $(document).ready(function(){
+            function mostrarSecciones() {
+                if($('#id_viene_en_pareja').is(':checked')){
+                    $('#pareja_info').fadeIn('slow');
+                    if({{ mostrar_seccion_2|yesno:"true,false" }}){
+                        $('#seccion_2').show();
+                        $('#seccion_1').hide();
+                    }
+                    if({{ mostrar_seccion_4|yesno:"true,false" }}){
+                        $('#seccion_4').show();
+                        $('#seccion_3').hide();
+                    }
+                } else {
+                    $('#pareja_info').fadeOut('slow');
+                    if({{ mostrar_seccion_1|yesno:"true,false" }}){
+                        $('#seccion_1').show();
+                        $('#seccion_2').hide();
+                    }
+                    if({{ mostrar_seccion_3|yesno:"true,false" }}){
+                        $('#seccion_3').show();
+                        $('#seccion_4').hide();
+                    }
+                }
+            }
+        
+            // Llama a la función cuando se carga la página
+            mostrarSecciones();
+        
+            $('#id_viene_en_pareja').change(mostrarSecciones);
+        });
+        </script>
+        
+        
+        
+        
+        
+        
+        
+        
+    
+           
+{% endblock content %}
