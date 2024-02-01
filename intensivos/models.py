@@ -1,7 +1,12 @@
+from datetime import timezone, datetime
+
 from django.db import models
+from django.template.defaultfilters import slugify
+
 
 class Intensivo(models.Model):
     nombre = models.CharField(max_length=100)
+    slug = models.SlugField(unique=True, blank=True)
     lugar = models.CharField(max_length=100)
     primera_fecha_pago = models.DateField()
     segunda_fecha_pago = models.DateField()
@@ -15,6 +20,11 @@ class Intensivo(models.Model):
     
     def __str__(self):
         return self.nombre
+    
+    def save(self, *args, **kwargs):
+        if not self.slug:
+            self.slug = slugify(self.nombre)
+        super().save(*args, **kwargs)
 
 class Participante(models.Model):
     intensivo = models.ForeignKey(Intensivo, on_delete=models.CASCADE, related_name='participantes')
@@ -31,3 +41,18 @@ class Participante(models.Model):
     
     def __str__(self):
         return self.nombre
+
+
+class CodigoDescuento(models.Model):
+    codigo = models.CharField(max_length=50, unique=True)
+    intensivo = models.ForeignKey(Intensivo, on_delete=models.CASCADE, related_name='codigos_descuento')
+    usos_maximos = models.IntegerField()
+    usos_actuales = models.IntegerField(default=0)
+    fecha_expiracion = models.DateField()
+    precio_descuento = models.DecimalField(max_digits=10, decimal_places=2)
+
+    def esta_vigente(self):
+        return datetime.now().date() <= self.fecha_expiracion and self.usos_actuales < self.usos_maximos
+    
+    def __str__(self):
+        return self.codigo

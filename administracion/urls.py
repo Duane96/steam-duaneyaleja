@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import admin, admin_signup, user_list, delete_user, editar_perfil, administracion, asistencia, ver_asistencias, listado_ingresos
+from .views import admin, admin_signup, user_list, delete_user, editar_perfil, administracion, asistencia, ver_asistencias, listado_ingresos_por_fecha, registro_codigo_descuento, codigo_descuento_list, nuevasclases, intensivos, usuarios, centro_asistencias, editar_intensivo, eliminar_intensivo
 from .views import BaseCreateView, ExtraCreateView, SensualCreateView, SocialCreateView, registrar_asistencia, TutorialesCreateView, intensivo_list, intensivo_participantes, registro_intensivo
 
 
@@ -17,10 +17,19 @@ urlpatterns = [
     path('procesar_qr/', registrar_asistencia, name='procesar_qr'),
     path('asistencias/', asistencia, name='asistencia'),
     path('ver_asistencias/', ver_asistencias, name='ver_asistencias'),
-    path('listado_ingresos/', listado_ingresos, name='listado_ingresos'),
+    path('listado_ingresos/', listado_ingresos_por_fecha, name='listado_ingresos'),
     path('tutorial/nuevo', TutorialesCreateView.as_view(), name='tutorial-nuevo'),
     path('lista-intensivos/', intensivo_list, name='lista_intensivos'),
     path('intensivo-participantes/<int:intensivo_id>/', intensivo_participantes, name='intensivo_participantes'),
     path('registro_intensivo/', registro_intensivo, name='registro_intensivo'),
-    
+    path('registro_codigo_descuento/', registro_codigo_descuento, name='registro_codigo_descuento'),
+    path('codigo_descuento_list/', codigo_descuento_list, name='codigo_descuento_list'),
+    path('nuevasclases/', nuevasclases, name='nuevasclases'),
+    path('intensivos/', intensivos, name='intensivos'),
+    path('usuarios/', usuarios, name='usuarios'),
+    path('centro_asistencias/', centro_asistencias, name='centro_asistencias'),
+    path('editar_intensivo/<int:intensivo_id>/', editar_intensivo, name='editar_intensivo'),
+    path('eliminar_intensivo/', eliminar_intensivo, name='eliminar_intensivo'),
 ]
+
+    

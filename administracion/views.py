@@ -29,6 +29,7 @@ from django.views.generic.edit import CreateView
 from django.urls import reverse_lazy
 from videos.models import Base, Extra, ClaseVistaSensual, ClaseVistaSocial, Tutoriales
 from .forms import *
+from intensivos.forms import CodigoDescuentoForm
 
 #QR
 from django.http import JsonResponse, HttpResponseNotAllowed
@@ -43,7 +44,10 @@ from django.utils import timezone
 from django.db.models import Sum, Q
 from django.db.models.functions import TruncDate
 
-from intensivos.models import Intensivo, Participante
+from intensivos.models import Intensivo, Participante, CodigoDescuento
+
+from django.shortcuts import render, get_object_or_404
+
 
 
 # Create your views here.
@@ -315,17 +319,21 @@ def normalizar_tipo_pago_listado(tipo_pago):
     else:
         return tipo_pago  # Si no es ninguno de los anteriores, devuelve el valor original
 
-from django.db.models import CharField
+from django.db.models import Sum, Q, F, Func, Value
 from django.db.models.functions import Cast
 
+class Date(Func):
+    function = 'DATE'
+    template = "%(function)s(%(expressions)s)"
+
 @admin_required
-def listado_ingresos(request):
-    # Convierte la fecha a una cadena en el formato 'YYYY-MM-DD'
-    pagos = Pago.objects.annotate(fecha=Cast('fecha_inicio', output_field=CharField()))
+def listado_ingresos_por_fecha(request):
+    # Extrae la fecha de la fecha y hora
+    pagos = Pago.objects.annotate(fecha=Date('fecha_inicio'))
 
     # Agrupa los pagos por fecha y calcula la suma de los pagos en efectivo y por transferencia para cada fecha
-    pagos = pagos.values('fecha').annotate(total_efectivo=Sum('plan__precio', filter=Q(tipo_pago='EF')))
-    pagos = pagos.values('fecha').annotate(total_transferencia=Sum('plan__precio', filter=Q(tipo_pago='TR')))
+    pagos = pagos.values('fecha').annotate(total_efectivo=Sum(F('plan__precio'), filter=Q(tipo_pago='EF')))
+    pagos = pagos.values('fecha', 'total_efectivo').annotate(total_transferencia=Sum(F('plan__precio'), filter=Q(tipo_pago='TR')))
 
     return render(request, 'administracion/listado_ingresos.html', {'pagos': pagos})
 
@@ -371,3 +379,60 @@ def registro_intensivo(request):
     else:
         form = IntensivoForm()
     return render(request, 'administracion/crear-intensivo.html', {'form': form})
+
+@admin_required
+def registro_codigo_descuento(request):
+    if request.method == 'POST':
+        form = CodigoDescuentoForm(request.POST)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Código de descuento agregado correctamente')
+            return redirect('registro_codigo_descuento')
+    else:
+        form = CodigoDescuentoForm()
+    return render(request, 'administracion/crear-codigo-descuento.html', {'form': form})
+
+
+@admin_required
+def codigo_descuento_list(request):
+    codigos_descuento = CodigoDescuento.objects.order_by('codigo')
+    return render(request, 'administracion/listacodigosdescuento.html', {'codigos_descuento': codigos_descuento})
+
+@admin_required
+def nuevasclases(request):
+    return render(request, 'administracion/nuevasclases.html')
+
+@admin_required
+def intensivos(request):
+    return render(request, 'administracion/intensivos.html')
+
+@admin_required
+def usuarios(request):
+    return render(request, 'administracion/usuarios.html')
+
+@admin_required
+def centro_asistencias(request):
+    return render(request, 'administracion/centro-asistencias.html')
+
+
+@admin_required
+def editar_intensivo(request, intensivo_id):
+    intensivo = get_object_or_404(Intensivo, id=intensivo_id)
+    if request.method == 'POST':
+        form = IntensivoForm(request.POST, instance=intensivo)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Actualizado correctamente')
+            return redirect('editar_intensivo', intensivo_id=intensivo.id)
+    else:
+        form = IntensivoForm(instance=intensivo)
+    return render(request, 'administracion/editar-intensivo.html', {'form': form})
+
+
+@admin_required
+def eliminar_intensivo(request):
+    intensivo_id = request.POST.get('intensivo_id')
+    intensivo = get_object_or_404(Intensivo, id=intensivo_id)
+    intensivo.delete()
+    return redirect('lista_intensivos')
+

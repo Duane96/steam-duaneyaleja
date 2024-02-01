@@ -54,6 +54,13 @@
                                         {{ form.viene_en_pareja.label }}
                                     </label>
                                 </div>
+                                <br>
+                                <div class="form-group">
+                                    {{ form.codigo_descuento.label_tag }}
+                                    <input type="text" class="form-control" id="{{ form.codigo_descuento.id_for_label }}" name="{{ form.codigo_descuento.html_name }}" value="{{ form.codigo_descuento.value|default_if_none:'' }}">
+                                    <div id="mensaje_codigo"></div>
+                                </div>
+                                
                                 <div id="pareja_info" style="display:none;">
                                     <div class="form-group">
                                         {{ form.nombre_pareja.label_tag }}
@@ -71,14 +78,13 @@
                                 <br>
                                 <br>
                                 {% if mostrar_seccion_1 %}
-                                <div id="seccion_1" style="display: {% if not form.viene_en_pareja.value %}block{% else %}none{% endif %};">
+                                    <div id="seccion_1" style="display: {% if not form.viene_en_pareja.value %}block{% else %}none{% endif %};">
                                     <h2>Primera Fecha de Pago Individual</h2>
-                                    <p>El precio a pagar es: COP {{ intensivo.precio_primera_fecha_solo }}</p>
+                                    <p class="precio">El precio a pagar es: COP {% if codigo_descuento %}{{ codigo_descuento.precio_descuento }}{% else %}{{ intensivo.precio_primera_fecha_solo }}{% endif %}</p>
                                     <p><strong>Puedes transferir al Nequi: 3156284108 o a Transfiya 3223654576</strong></p>
                                     <p>Recuerda revisar todos tus datos antes de enviar y subir el comprobante de pago.</p>
                                     <br>
-                                </div>
-                                
+                                    </div>
                                 {% endif %}
                                 {% if mostrar_seccion_2 %}
                                 <div id="seccion_2" style="display: {% if not form.viene_en_pareja.value %}block{% else %}none{% endif %};">
@@ -91,13 +97,13 @@
                                 
                                 {% endif %}
                                 {% if mostrar_seccion_3 %}
-                                <div id="seccion_3" style="display: {% if not form.viene_en_pareja.value %}block{% else %}none{% endif %};">
+                                    <div id="seccion_3" style="display: {% if not form.viene_en_pareja.value %}block{% else %}none{% endif %};">
                                     <h2>Segunda Fecha de Pago Individual</h2>
-                                    <p>El precio a pagar es: COP {{ intensivo.precio_segunda_fecha_solo }}</p>
+                                    <p>El precio a pagar es: COP {% if codigo_descuento %}{{ codigo_descuento.precio_descuento }}{% else %}{{ intensivo.precio_segunda_fecha_solo }}{% endif %}</p>
                                     <p><strong>Puedes transferir al Nequi: 3156284108 o a Transfiya 3223654576</strong></p>
                                     <p>Recuerda revisar todos tus datos antes de enviar y subir el comprobante de pago.</p>
                                     <br>
-                                </div>                                
+                                    </div>
                                 {% endif %}
                                 
                                 {% if mostrar_seccion_4 %}
@@ -167,6 +173,33 @@
             mostrarSecciones();
         
             $('#id_viene_en_pareja').change(mostrarSecciones);
+
+            function verificarCodigo() {
+                var codigo = $('#id_codigo_descuento').val();
+                var vieneEnPareja = $('#id_viene_en_pareja').is(':checked');
+                if (codigo && !vieneEnPareja) {
+                    $.ajax({
+                        url: '/intensivo/' + {{ intensivo.id }} + '/verificar_codigo_descuento/',
+                        data: {
+                            'codigo': codigo
+                        },
+                        dataType: 'json',
+                        success: function(data) {
+                            if (data.es_valido) {
+                                $('#mensaje_codigo').text('El código de descuento es válido.').css('color', 'green');
+                                $('.precio').text(' Código de descuento válido, precio a pagar: COP ' + data.precio_descuento);
+                            } else {
+                                $('#mensaje_codigo').text('El código de descuento no es válido.').css('color', 'red');
+                            }
+                        }
+                    });
+                } else {
+                    $('#mensaje_codigo').text('El código de descuento no es válido si vienes en pareja.').css('color', 'red');
+                }
+            }
+        
+            $('#id_codigo_descuento').change(verificarCodigo);
+            $('#id_viene_en_pareja').change(verificarCodigo);
         });
         </script>
         

@@ -23,48 +23,48 @@
 
                 <!-- Begin Page Content -->
                 <div class="container-fluid">
-                    
                     <!-- Page Heading -->
-                    <div class="d-sm-flex align-items-center justify-content-between mb-4">
-                        <h1 class="h3 mb-0 text-gray-800">Intensivos</h1>
-                    </div>
+                    <h1 class="h3 mb-2 text-gray-800">Codigos de Descuento</h1>
                     
+
                     <!-- DataTales Example -->
                     <div class="card shadow mb-4">
                         <div class="card-header py-3">
-                            <h6 class="m-0 font-weight-bold text-primary">Listado de Intensivos</h6>
+                            <h6 class="m-0 font-weight-bold text-primary">Listado de Códigos</h6>
                         </div>
                         <div class="card-body">
                             <div class="table-responsive">
                                 <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                                     <thead>
                                         <tr>
-                                            <th>Nombre</th>
-                                            <th>Lugar</th>
-                                            <th>Fecha</th>
-                                            
+                                            <th>Código</th>
+                                            <th>Precio Descuento</th>
+                                            <th>Fecha Expiración</th>
+                                            <th>Usos Máximos</th>
+                                            <th>Usos Actuales</th>
                                             <th>Acciones</th>
                                         </tr>
                                     </thead>
                                     <tfoot>
                                         <tr>
-                                            <th>Nombre</th>
-                                            <th>Lugar</th>
-                                            <th>Fecha</th>
-                                            
+                                            <th>Código</th>
+                                            <th>Precio Descuento</th>
+                                            <th>Fecha Expiración</th>
+                                            <th>Usos Máximos</th>
+                                            <th>Usos Actuales</th>
                                             <th>Acciones</th>
                                         </tr>
                                     </tfoot>
                                     <tbody>
-                                        {% for intensivo in intensivos %}
+                                        {% for codigo_descuento in codigos_descuento %}
                                             <tr>
-                                                <td><a href="{% url "intensivo_participantes" intensivo.id %}">{{ intensivo.nombre }}</td>
-                                                <td>{{ intensivo.lugar }}</td>
-                                                <td>{{ intensivo.fecha_evento|date:"d/m/Y" }}</td>
-                                                
+                                                <td>{{ codigo_descuento.codigo }}</td>
+                                                <td>{{ codigo_descuento.precio_descuento }}</td>
+                                                <td>{{ codigo_descuento.fecha_expiracion|date:"d/m/Y" }}</td>
+                                                <td>{{ codigo_descuento.usos_maximos }}</td>
+                                                <td>{{codigo_descuento.usos_actuales}}
                                                 <td>
-                                                    <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#deleteModal" data-intensivoid="{{ intensivo.id }}"><i class="fas fa-trash"></i></button>
-                                                    <a href="{% url 'editar_intensivo' intensivo.id %}" class="btn btn-warning"><i class="fas fa-edit"></i></a>
+                                                    <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#deleteModal" data-codigodescuentoid="{{ codigo_descuento.id }}"><i class="fas fa-trash"></i></button>
                                                 </td>
                                             </tr>
                                         {% endfor %}
@@ -74,35 +74,23 @@
                             </div>
                         </div>
                     </div>
+
+                    
                 </div>
                 <!-- /.container-fluid -->
 
             </div>
             <!-- End of Main Content -->
 
-            <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
-                <div class="modal-dialog" role="document">
-                  <div class="modal-content">
-                    <div class="modal-header">
-                      <h5 class="modal-title" id="deleteModalLabel">Eliminar Intensivo</h5>
-                      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                      </button>
+            <!-- Footer -->
+            <footer class="sticky-footer bg-white">
+                <div class="container my-auto">
+                    <div class="copyright text-center my-auto">
+                        <span>Copyright &copy; Your Website 2020</span>
                     </div>
-                    <div class="modal-body">
-                      ¿Estás seguro de que quieres eliminar este intensivo?
-                    </div>
-                    <div class="modal-footer">
-                      <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
-                      <form method="POST" action="{% url 'eliminar_intensivo' %}">
-                        {% csrf_token %}
-                        <input type="hidden" name="intensivo_id" id="intensivo_id">
-                        <button type="submit" class="btn btn-danger">Eliminar</button>
-                      </form>
-                    </div>
-                  </div>
                 </div>
-              </div>
+            </footer>
+            <!-- End of Footer -->
 
         </div>
         <!-- End of Content Wrapper -->
@@ -136,19 +124,26 @@
     </div>
 
 
+    <!-- Delete Modal -->
+<div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="deleteModalLabel">¿Estás seguro de que quieres eliminar este usuario?</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">×</span>
+          </button>
+        </div>
+        <div class="modal-body">Presiona Eliminar para confirmar.</div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+          <a class="btn btn-primary" id="deleteUserButton">Eliminar</a>
+        </div>
+      </div>
+    </div>
+  </div>
 
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-
-    <script>
-        $(document).ready(function() {
-            $('#deleteModal').on('show.bs.modal', function (event) {
-              var button = $(event.relatedTarget) // Button that triggered the modal
-              var intensivoId = button.data('intensivoid') // Extract info from data-* attributes
-              var modal = $(this)
-              modal.find('#intensivo_id').val(intensivoId)
-            })
-          });
-          
-        </script>
+  
+  
 
 {% endblock content %}

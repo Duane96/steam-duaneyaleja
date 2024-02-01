@@ -26,84 +26,16 @@
                     
                     <!-- Page Heading -->
                     <div class="d-sm-flex align-items-center justify-content-between mb-4">
-                        <h1 class="h3 mb-0 text-gray-800">Panel de Administración</h1>
+                        <h1 class="h3 mb-0 text-gray-800">Intensivos</h1>
                     </div>
                     
+                    
                     <div class="row">
-                        <!-- Asistencia -->
-                        <div class="col-xl-3 col-md-6 mb-4">
-                            <div class="card border-left-primary shadow h-100 py-2">
-                                <a href="{% url "centro_asistencias" %}"><div class="card-body">
-                                    <div class="row no-gutters align-items-center">
-                                        <div class="col mr-2">
-                                            
-                                            <div class="h5 mb-0 font-weight-bold text-gray-800">Asistencias</div>
-                                        </div>
-                                        <div class="col-auto">
-                                            <i class="fas fa-user fa-2x text-gray-300"></i>
-                                        </div>
-                                    </div>
-                                </a></div>
-                            </div>
-                        </div>
                         
-                        <!-- Nuevo Usuario -->
-                        <div class="col-xl-3 col-md-6 mb-4">
-                            <div class="card border-left-primary shadow h-100 py-2">
-                                <a href="{% url "usuarios" %}"><div class="card-body">
-                                    <div class="row no-gutters align-items-center">
-                                        <div class="col mr-2">
-                                            
-                                            <div class="h5 mb-0 font-weight-bold text-gray-800">Usuarios</div>
-                                        </div>
-                                        <div class="col-auto">
-                                            <i class="fas fa-user fa-2x text-gray-300"></i>
-                                        </div>
-                                    </div>
-                                </a></div>
-                            </div>
-                        </div>
-
-                        <!-- Ingresos -->
-                        <div class="col-xl-3 col-md-6 mb-4">
-                            <div class="card border-left-primary shadow h-100 py-2">
-                                <a href="{% url "pagos_admin" %}"><div class="card-body">
-                                    <div class="row no-gutters align-items-center">
-                                        <div class="col mr-2">
-                                            
-                                            <div class="h5 mb-0 font-weight-bold text-gray-800">Ingresos</div>
-                                        </div>
-                                        <div class="col-auto">
-                                            <i class="fas fa-credit-card fa-2x text-gray-300"></i>
-                                        </div>
-                                    </div>
-                                </a></div>
-                            </div>
-                        </div>
-
-                        <!-- Clase Sensual -->
-                        <div class="col-xl-3 col-md-6 mb-4">
-                            <div class="card border-left-primary shadow h-100 py-2">
-                                <a href="{% url "nuevasclases" %}"><div class="card-body">
-                                    <div class="row no-gutters align-items-center">
-                                        <div class="col mr-2">
-                                            
-                                            <div class="h5 mb-0 font-weight-bold text-gray-800">Nuevas Clases</div>
-                                        </div>
-                                        <div class="col-auto">
-                                            <i class="fas fa-user fa-2x text-gray-300"></i>
-                                        </div>
-                                    </div>
-                                </a></div>
-                            </div>
-                        </div>
-
-                        
-
                         <!--Listado Intensivos-->
                         <div class="col-xl-3 col-md-6 mb-4">
                             <div class="card border-left-primary shadow h-100 py-2">
-                                <a href="{% url "intensivos" %}"><div class="card-body">
+                                <a href="{% url "lista_intensivos" %}"><div class="card-body">
                                     <div class="row no-gutters align-items-center">
                                         <div class="col mr-2">
                                             
@@ -117,15 +49,58 @@
                             </div>
                         </div>
 
-                        
-
-                        
-
-                            <!-- Tus primeras tres filas van aquí -->
-
-
-
+                        <!--Crear Intensivo-->
+                        <div class="col-xl-3 col-md-6 mb-4">
+                            <div class="card border-left-primary shadow h-100 py-2">
+                                <a href="{% url "registro_intensivo" %}"><div class="card-body">
+                                    <div class="row no-gutters align-items-center">
+                                        <div class="col mr-2">
+                                            
+                                            <div class="h5 mb-0 font-weight-bold text-gray-800">Crear Intensivo</div>
+                                        </div>
+                                        <div class="col-auto">
+                                            <i class="fas fa-user fa-2x text-gray-300"></i>
+                                        </div>
+                                    </div>
+                                </a></div>
+                            </div>
                         </div>
+
+                            <!-- Crear Codigo -->
+                            <div class="col-xl-3 col-md-6 mb-4">
+                                <div class="card border-left-primary shadow h-100 py-2">
+                                    <a href="{% url "registro_codigo_descuento" %}"><div class="card-body">
+                                        <div class="row no-gutters align-items-center">
+                                            <div class="col mr-2">
+                                                <div class="h5 mb-0 font-weight-bold text-gray-800">Crear Codigo</div>
+                                            </div>
+                                            <div class="col-auto">
+                                                <i class="fas fa-user fa-2x text-gray-300"></i>
+                                            </div>
+                                        </div>
+                                    </a></div>
+                                </div>
+                            </div>
+
+                            <!-- Lista Codigos -->
+                        <div class="col-xl-3 col-md-6 mb-4">
+                            <div class="card border-left-primary shadow h-100 py-2">
+                                <a href="{% url "codigo_descuento_list" %}"><div class="card-body">
+                                    <div class="row no-gutters align-items-center">
+                                        <div class="col mr-2">
+                                            <div class="h5 mb-0 font-weight-bold text-gray-800">Lista Codigos</div>
+                                        </div>
+                                        <div class="col-auto">
+                                            <i class="fas fa-user fa-2x text-gray-300"></i>
+                                        </div>
+                                    </div>
+                                </a></div>
+                            </div>
+                        </div>
+
+                        
+
+                        
                     </div>
                 </div>
                 <!-- /.container-fluid -->
@@ -133,7 +108,15 @@
             </div>
             <!-- End of Main Content -->
 
-            
+            <!-- Footer -->
+            <footer class="sticky-footer bg-white">
+                <div class="container my-auto">
+                    <div class="copyright text-center my-auto">
+                        <span>Copyright &copy; Your Website 2020</span>
+                    </div>
+                </div>
+            </footer>
+            <!-- End of Footer -->
 
         </div>
         <!-- End of Content Wrapper -->

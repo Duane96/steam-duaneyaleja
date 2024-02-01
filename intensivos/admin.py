@@ -4,3 +4,4 @@ from .models import *
 
 admin.site.register(Intensivo)
 admin.site.register(Participante)
+admin.site.register(CodigoDescuento)
