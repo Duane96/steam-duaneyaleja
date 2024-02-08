@@ -69,23 +69,23 @@
         });
         document.getElementById('startScan').addEventListener('click', function() {
             Instascan.Camera.getCameras().then(function (cameras) {
-                // Buscar la cámara trasera
-                var rearCamera = cameras.find(camera => camera.label.toLowerCase().includes('back'));
-                if (rearCamera) {
-                    // Si se encuentra la cámara trasera, iniciar el escáner con esa cámara
-                    scanner.start(rearCamera);
-                } else if (cameras.length > 0) {
-                    // Si no se encuentra la cámara trasera pero hay otras cámaras disponibles, iniciar el escáner con la primera cámara
-                    scanner.start(cameras[0]);
+                if (cameras.length > 0) {
+                    var selectedCam = cameras[0];
+                    $.each(cameras, (i, c) => {
+                        if (c.name.indexOf('back') != -1) {
+                            selectedCam = c;
+                            return false;
+                        }
+                    });
+                    scanner.start(selectedCam);
                 } else {
                     console.error('No cameras found.');
                 }
-                document.getElementById('preview').style.display = 'block';
             }).catch(function (e) {
                 console.error(e);
             });
+            
         });
-        
         
 
 document.getElementById('stopScan').addEventListener('click', function() {
@@ -94,6 +94,11 @@ document.getElementById('stopScan').addEventListener('click', function() {
 
 
     </script>
+
+
+
+
+
 
                     
                     
