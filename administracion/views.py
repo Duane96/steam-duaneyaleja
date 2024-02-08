@@ -157,6 +157,12 @@ def editar_perfil(request, user_id):
             
             pago.save()
             
+            # Establecer todas las asistencias existentes del usuario como inactivas
+            Asistencia.objects.filter(usuario=perfil.user).update(activa=False)
+
+            # Crear una nueva asistencia activa
+            Asistencia.objects.create(usuario=perfil.user, pago=pago, numero_clase=1, activa=True)
+            
              
             
             # Cambiar el tipo de usuario a 'grupo', 'full', 'cursos' o cualquier otro estado que desees
@@ -260,7 +266,7 @@ def registrar_asistencia(request):
 
         # Verificar si el usuario ya está desactivado
         if perfil.tipo_usuario.nombre == 'desactivado':
-            messages.error(request, 'Usuario desactivado')
+            # Aquí se ha modificado la línea para devolver el mensaje de error directamente en la respuesta JSON
             return JsonResponse({"message": "Usuario desactivado"}, status=400)
 
         # Obtener el último pago del usuario
@@ -271,12 +277,12 @@ def registrar_asistencia(request):
 
         # Verificar si la fecha_fin es igual a la fecha actual
         if perfil.fecha_fin == timezone.now().date():
-            messages.error(request, 'Fecha de plan expirada')
+            # Aquí se ha modificado la línea para devolver el mensaje de error directamente en la respuesta JSON
             return JsonResponse({"message": "Fecha de plan expirada"}, status=400)
 
         # Verificar si el usuario tiene clases disponibles
         if ultimo_pago and asistencias_desde_ultimo_pago >= ultimo_pago.plan.cantidad_clases:
-            messages.error(request, 'Usuario sin clases disponibles')
+            # Aquí se ha modificado la línea para devolver el mensaje de error directamente en la respuesta JSON
             return JsonResponse({"message": "Usuario sin clases disponibles"}, status=400)
 
         # Registrar la asistencia

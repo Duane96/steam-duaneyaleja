@@ -3,6 +3,7 @@ from django.contrib.auth.models import User
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 from django.utils import timezone
+from datetime import timedelta
 
 class Plan(models.Model):
     nombre = models.CharField(max_length=100)
@@ -38,8 +39,12 @@ class Perfil(models.Model):
     
     def save(self, *args, **kwargs):
         from administracion.models import Asistencia  # Importación local
-        if self.fecha_fin and self.fecha_fin < timezone.now().date():
-            self.tipo_usuario = TipoUsuario.objects.get(nombre='desactivado')
+        if self.fecha_fin:
+            # Ajusta la fecha de finalización para que sea un día después
+            self.fecha_fin += timedelta(days=1)
+
+            if self.fecha_fin < timezone.now().date():
+                self.tipo_usuario = TipoUsuario.objects.get(nombre='desactivado')
         elif self.plan and Asistencia.objects.filter(usuario=self.user).count() >= self.plan.cantidad_clases:
             self.tipo_usuario = TipoUsuario.objects.get(nombre='desactivado')
         super().save(*args, **kwargs)

@@ -27,6 +27,7 @@ class Asistencia(models.Model):
     pago = models.ForeignKey(Pago, on_delete=models.CASCADE)  # Nuevo campo
     fecha = models.DateField(auto_now_add=True)
     numero_clase = models.IntegerField()
+    activa = models.BooleanField(default=True)
 
     def __str__(self):
         return f"{self.usuario.username} - Clase {self.numero_clase}"
