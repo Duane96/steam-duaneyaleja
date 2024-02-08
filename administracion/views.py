@@ -442,3 +442,48 @@ def eliminar_intensivo(request):
     intensivo.delete()
     return redirect('lista_intensivos')
 
+
+@admin_required
+def registrar_asistencia_manual(request):
+    if request.method == 'POST':
+        # Obtén el id del usuario y la fecha desde el formulario
+        usuario_id = request.POST['usuario']
+        fecha = request.POST['fecha']
+        
+        # Aquí puedes agregar validaciones adicionales si es necesario
+
+        # Obtén el usuario y el perfil asociado
+        usuario = get_object_or_404(User, id=usuario_id)
+        perfil = get_object_or_404(Perfil, user=usuario)
+
+        # Verificar si el usuario ya está desactivado
+        if perfil.tipo_usuario.nombre == 'desactivado':
+            messages.error(request, 'Usuario desactivado')
+            return JsonResponse({"message": "Usuario desactivado"}, status=400)
+
+        # Obtener el último pago del usuario
+        ultimo_pago = Pago.objects.filter(user=usuario).latest('fecha_inicio')
+
+        # Contar las asistencias asociadas con el último pago
+        asistencias_desde_ultimo_pago = Asistencia.objects.filter(usuario=usuario, pago=ultimo_pago).count()
+
+        # Verificar si la fecha_fin es igual a la fecha actual
+        if perfil.fecha_fin == timezone.now().date():
+            messages.error(request, 'Fecha de plan expirada')
+            return JsonResponse({"message": "Fecha de plan expirada"}, status=400)
+
+        # Verificar si el usuario tiene clases disponibles
+        if ultimo_pago and asistencias_desde_ultimo_pago >= ultimo_pago.plan.cantidad_clases:
+            messages.error(request, 'Usuario sin clases disponibles')
+            return JsonResponse({"message": "Usuario sin clases disponibles"}, status=400)
+
+        # Registrar la asistencia
+        numero_clase = asistencias_desde_ultimo_pago + 1
+        Asistencia.objects.create(usuario=usuario, pago=ultimo_pago, numero_clase=numero_clase, fecha=fecha)  # Asociar la asistencia con el último pago
+        messages.success(request, 'Asistencia registrada con éxito')
+
+        return JsonResponse({"message": "Asistencia registrada con éxito"})
+    else:
+        # Si el método no es POST, muestra el formulario
+        usuarios = User.objects.all()
+        return render(request, 'administracion/asistencias-manual.html', {'usuarios': usuarios})

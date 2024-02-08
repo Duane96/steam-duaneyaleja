@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import admin, admin_signup, user_list, delete_user, editar_perfil, administracion, asistencia, ver_asistencias, listado_ingresos_por_fecha, registro_codigo_descuento, codigo_descuento_list, nuevasclases, intensivos, usuarios, centro_asistencias, editar_intensivo, eliminar_intensivo
+from .views import admin, admin_signup, user_list, delete_user, editar_perfil, administracion, asistencia, ver_asistencias, listado_ingresos_por_fecha, registro_codigo_descuento, codigo_descuento_list, nuevasclases, intensivos, usuarios, centro_asistencias, editar_intensivo, eliminar_intensivo, registrar_asistencia_manual
 from .views import BaseCreateView, ExtraCreateView, SensualCreateView, SocialCreateView, registrar_asistencia, TutorialesCreateView, intensivo_list, intensivo_participantes, registro_intensivo
 
 
@@ -30,6 +30,7 @@ urlpatterns = [
     path('centro_asistencias/', centro_asistencias, name='centro_asistencias'),
     path('editar_intensivo/<int:intensivo_id>/', editar_intensivo, name='editar_intensivo'),
     path('eliminar_intensivo/', eliminar_intensivo, name='eliminar_intensivo'),
+    path('registrar_asistencia_manual/', registrar_asistencia_manual, name='registrar_asistencia_manual'),
 ]
 
     
